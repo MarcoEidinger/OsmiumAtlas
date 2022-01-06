@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AsyncCompatibilityKit",
+        "repositoryURL": "https://github.com/KaiOelfke/AsyncCompatibilityKit",
+        "state": {
+          "branch": "main",
+          "revision": "38333d1d1b9638df4d342c502d9c5a3369471135",
+          "version": null
+        }
+      },
+      {
+        "package": "FeedKit",
+        "repositoryURL": "https://github.com/nmdias/FeedKit.git",
+        "state": {
+          "branch": null,
+          "revision": "68493a33d862c33c9a9f67ec729b3b7df1b20ade",
+          "version": "9.1.2"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/MarcoEidinger/swift-argument-parser",
+        "state": {
+          "branch": "async",
+          "revision": "dfeefc76dc15f1979a84e6a57c552571602478b3",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftyBeaver",
+        "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+        "state": {
+          "branch": null,
+          "revision": "2c039501d6eeb4d4cd4aec4a8d884ad28862e044",
+          "version": "1.9.5"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
