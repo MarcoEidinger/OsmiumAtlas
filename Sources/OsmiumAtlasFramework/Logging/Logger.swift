@@ -1,17 +1,17 @@
 import Foundation
 import SwiftyBeaver
 
-enum LogDestination {
+public enum LogDestination {
     case console
     case file(URL)
 }
 
-struct BeaverLogger {
+public struct BeaverLogger {
     private(set) var logLevel: LogLevel
 
     private(set) var log: SwiftyBeaver.Type
 
-    init(into destination: LogDestination = .console, verbose: Bool) {
+    internal init(into destination: LogDestination = .console, verbose: Bool) {
         logLevel = verbose ? .debug : .error
 
         log = SwiftyBeaver.self
@@ -28,8 +28,8 @@ struct BeaverLogger {
         }
     }
 
-    static func create(verbose: Bool) -> Logging {
-        let logDesintation: LogDestination = .console
+    public static func create(verbose: Bool) -> Logging {
+        let logDesintation: LogDestination = .file(URL(fileURLWithPath: "/tmp/iosdevdirectory.log"))
         return BeaverLogger(into: logDesintation, verbose: verbose)
     }
 }
@@ -130,5 +130,5 @@ public extension Logging {
 /// :nodoc:
 public enum Logger {
     /// singleton to access logger
-    public static var shared: Logging!
+    public static var shared: Logging = NoLogger()
 }

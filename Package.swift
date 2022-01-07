@@ -3,10 +3,10 @@
 import PackageDescription
 
 let package = Package(
-    name: "iDDBlogChecker",
+    name: "OsmiumAtlas",
     platforms: [.macOS(.v11)],
     products: [
-        .executable(name: "idd-blog-checker", targets: ["iDDBlogChecker"]),
+        .executable(name: "iosdevdirectory", targets: ["OsmiumAtlas"]),
     ],
     dependencies: [
         .package(url: "https://github.com/MarcoEidinger/swift-argument-parser", .branch("async")),
@@ -16,12 +16,16 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "iDDBlogChecker",
+            name: "OsmiumAtlas",
+            dependencies: ["OsmiumAtlasFramework", .product(name: "ArgumentParser", package: "swift-argument-parser")]
+        ),
+        .target(
+            name: "OsmiumAtlasFramework",
             dependencies: ["FeedKit", "AsyncCompatibilityKit", .product(name: "ArgumentParser", package: "swift-argument-parser"), "SwiftyBeaver"]
         ),
         .testTarget(
-            name: "iDDBlogCheckerTests",
-            dependencies: ["iDDBlogChecker"]
+            name: "OsmiumAtlasFrameworkTests",
+            dependencies: ["OsmiumAtlasFramework"]
         ),
     ]
 )

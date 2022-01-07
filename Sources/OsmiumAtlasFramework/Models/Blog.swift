@@ -1,16 +1,17 @@
 import Foundation
 
-struct Blog: Codable {
-    var title: String
-    var author: String
-    var site_url: String?
-    var feed_url: String?
-    var latestPostDate: Date?
+/// representing a blog / site listed in iOS Dev Directory (https://raw.githubusercontent.com/daveverwer/iOSDevDirectory/master/blogs.json)
+public struct Blog: Codable {
+    public var title: String
+    public var author: String
+    public var site_url: String?
+    public var feed_url: String?
+    public var most_recent_article: Article? // introduced by OsmiumAtlas and is not known to iOS Dev Directory
 }
 
 extension Blog: Identifiable {
-    var id: String {
-        return "\(title)\(author)"
+    public var id: String {
+        "\(title)\(author)"
     }
 }
 
