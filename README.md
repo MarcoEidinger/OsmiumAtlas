@@ -1,6 +1,14 @@
-# Osmium Atlas
+<div>
+  <p align="center">
+    <img width=40% src="https://user-images.githubusercontent.com/4176826/148623885-7c6278c1-9a63-4547-83ea-10940f41549e.jpg" alt="Atlas" />
+    </br>
+  </p>
+  <hr>
+</div>
 
-Project `Osmium Atlas` provides Command-Line Tool `iosdevdirectory` to verify the activities of feeds listed on the [iOS Dev Directory](https://iosdevdirectory.com/).
+Codename *Osmium Atlas* represents my work creating a command line tool, written in Swift,  to verify the feeds listed in the [iOS Dev Directory](https://iosdevdirectory.com/).
+
+The command line tool is named `iosdevdirectory` and part of the Swift package stored in this repository.
 
 ## Usage
 
@@ -8,9 +16,11 @@ Project `Osmium Atlas` provides Command-Line Tool `iosdevdirectory` to verify th
 $ swift run iosdevdirectory check-en-dev
 ```
 
-will print english development feeds (a.k.a blogs) listed in [iOS Dev Directory](https://iosdevdirectory.com/) with their most recent feed item (a.k.a blog post) information. Blogs without Atom/RSS/JSON feed will not be included in the result set. The result set is sorted by date in descending order.
+The command above will print a JSON object containing development feeds (a.k.a blogs), written in the English language and listed in the [iOS Dev Directory](https://iosdevdirectory.com/) with their most recent feed item (a.k.a blog post or article).
 
-Sub command `check-en-dev` can be ommited as it is the default.
+Blogs without Atom/RSS/JSON feed will not be included in the result set. 
+
+The result set is sorted by date in descending order.
 
 You can pipe the results into a new file
 
@@ -47,6 +57,8 @@ Example of result set (in January 2022)
 }
 ```
 
+P.S.: Sub command `check-en-dev` can be ommited as it is the default.
+
 ## Installation
 ### Using [Mint](https://github.com/yonaskolb/mint)
 
@@ -70,10 +82,21 @@ $ make install
 
 ## Logging
 
-Per default only errors are logged into the log file. Enable detailed logging with argument `--debug`.
+Per default only errors are logged into the log file. You can enable detailed logging with argument `--debug`.
+
+```
+$ swift run iosdevdirectory check-en-dev --debug
+```
 
 You can tail the log file with `tail -f /tmp/iosdevdirectory.log`
 
-## Notes
+## Credits
 
-- `AsyncCompatibilityKit` framework is needed to avoid compiler issue: URLSession 'data(from:delegate:)' is only available in macOS 12.0 or newer
+Special thanks to
+- [Dave Verwer](https://twitter.com/daveverwer) who put together and maintains the iOS Dev Directory
+- [Nuno Dias](https://github.com/nmdias) who created `FeedKit`
+- [John Sundell](https://twitter.com/johnsundell) who created `AsyncCompatibilityKit` 
+
+## License
+
+This project is released under the MIT license.
