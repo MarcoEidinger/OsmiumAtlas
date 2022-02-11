@@ -6,6 +6,7 @@ public struct Blog: Codable {
     public var author: String
     public var site_url: String?
     public var feed_url: String?
+    public var twitter_url: String?
     public var most_recent_article: Article? // introduced by OsmiumAtlas and is not known to iOS Dev Directory
 }
 

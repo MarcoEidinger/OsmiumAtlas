@@ -59,6 +59,16 @@ Example of result set (in January 2022)
 
 P.S.: Sub command `check-en-dev` can be ommited as it is the default.
 
+### Twitter List
+
+I am able to update Twitter List [Active iOS Dev Bloggers](https://twitter.com/i/lists/1490025783963754502) with
+
+```
+swift run iosdevdirectory update-twitterlist <API-Key> <API-Secret> <Access-Token> <Access-Token-Secret>
+```
+
+Those keys and secrets are only known to me :)
+
 ## Installation
 ### Using [Mint](https://github.com/yonaskolb/mint)
 

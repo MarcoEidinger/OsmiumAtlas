@@ -3,6 +3,7 @@ import SwiftyBeaver
 
 public enum LogDestination {
     case console
+    case defaultFile
     case file(URL)
 }
 
@@ -11,26 +12,38 @@ public struct BeaverLogger {
 
     private(set) var log: SwiftyBeaver.Type
 
-    internal init(into destination: LogDestination = .console, verbose: Bool) {
+    internal init(into destination: LogDestination = .console,
+                  verbose: Bool,
+                  format: String)
+    {
         logLevel = verbose ? .debug : .error
 
         log = SwiftyBeaver.self
 
-        log.addDestination(make(destination))
+        log.addDestination(make(destination, format: format))
     }
 
-    func make(_ destination: LogDestination) -> BaseDestination {
+    func make(_ destination: LogDestination, format: String) -> BaseDestination {
+        let createdDestination: BaseDestination
         switch destination {
+        case .defaultFile:
+            createdDestination = FileDestination(logFileURL: URL(fileURLWithPath: "/tmp/iosdevdirectory.log"))
         case let .file(url):
-            return FileDestination(logFileURL: url)
+            createdDestination = FileDestination(logFileURL: url)
         default:
-            return ConsoleDestination()
+            createdDestination = ConsoleDestination()
         }
+
+        createdDestination.format = format
+
+        return createdDestination
     }
 
-    public static func create(verbose: Bool) -> Logging {
-        let logDesintation: LogDestination = .file(URL(fileURLWithPath: "/tmp/iosdevdirectory.log"))
-        return BeaverLogger(into: logDesintation, verbose: verbose)
+    public static func create(verbose: Bool,
+                              logDestination: LogDestination = .defaultFile,
+                              format: String = "$DHH:mm:ss.SSS$d $C$L$c $N.$F:$l - $M") -> Logging
+    {
+        BeaverLogger(into: logDestination, verbose: verbose, format: format)
     }
 }
 
@@ -53,6 +66,10 @@ extension BeaverLogger: Logging {
     public func debug(_ message: String, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         guard logLevel >= .debug else { return }
         log.debug(message, file, function, line: line)
+    }
+
+    public func reset() {
+        log.removeAllDestinations()
     }
 }
 
@@ -102,6 +119,8 @@ public protocol Logging {
     ///   - function: in wich the message occurred
     ///   - line: line number in which the message occurred
     func debug(_ message: String, _ file: String, _ function: String, _ line: Int)
+
+    func reset()
 }
 
 /// :nodoc:
@@ -125,6 +144,8 @@ public extension Logging {
     func debug(_ message: String, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
         debug(message, file, function, line)
     }
+
+    func reset() {}
 }
 
 /// :nodoc:

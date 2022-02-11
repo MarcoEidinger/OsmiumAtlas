@@ -1,6 +1,5 @@
 import ArgumentParser
 import Foundation
-import OsmiumAtlasFramework
 
 protocol AsyncParsableCommand: ParsableCommand {
     mutating func runAsync() async throws
@@ -37,41 +36,10 @@ struct MainCommand: ParsableCommand {
         // Pass an array to `subcommands` to set up a nested tree of subcommands.
         // With language support for type-level introspection, this could be
         // provided by automatically finding nested `ParsableCommand` types.
-        subcommands: [iOSDevDirectoryEnglishDevBlogs.self],
+        subcommands: [iOSDevDirectoryEnglishDevBlogs.self, UpdateTwitterList.self],
 
         // A default subcommand, when provided, is automatically selected if a
         // subcommand is not given on the command line.
         defaultSubcommand: iOSDevDirectoryEnglishDevBlogs.self
     )
-}
-
-struct iOSDevDirectoryEnglishDevBlogs: AsyncParsableCommand {
-    static var configuration = CommandConfiguration(
-        commandName: "check-en-dev"
-    )
-
-    @Flag(help: "Debug/Verbose logging")
-    var debug = false
-
-    mutating func runAsync() async throws {
-        Logger.shared = BeaverLogger.create(verbose: debug)
-
-        Logger.shared.debug("start")
-        do {
-            let service = iOSDevDirectoryNetworkingService()
-
-            let blogs = try await service.getEnglishDevelopmentBlogs()
-            Logger.shared.info("English dev blogs: \(blogs.count)")
-            let blogsWithMostRecentArticle = try await service.blogsWithMostRecentArticle(for: Array(blogs))
-            Logger.shared.info("English dev blogs with most recent article: \(blogsWithMostRecentArticle.count)")
-
-            let result = SitesAndStats(sites: blogsWithMostRecentArticle,
-                                       stats: SitesStats(sites: blogsWithMostRecentArticle))
-
-            print(try result.asJson())
-
-        } catch {
-            Logger.shared.error(error.localizedDescription)
-        }
-    }
 }
