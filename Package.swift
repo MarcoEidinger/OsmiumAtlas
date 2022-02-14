@@ -23,11 +23,15 @@ let package = Package(
         ),
         .target(
             name: "OsmiumAtlasFramework",
-            dependencies: ["FeedKit", "AsyncCompatibilityKit", .product(name: "ArgumentParser", package: "swift-argument-parser"), "SwiftyBeaver"]
+            dependencies: ["Logging", "FeedKit", "AsyncCompatibilityKit", .product(name: "ArgumentParser", package: "swift-argument-parser")]
         ),
         .target(
             name: "Twitter",
-            dependencies: ["Swifter", "OhhAuth", "AsyncCompatibilityKit"]
+            dependencies: ["Logging", "Swifter", "OhhAuth", "AsyncCompatibilityKit"]
+        ),
+        .target(
+            name: "Logging",
+            dependencies: ["SwiftyBeaver"]
         ),
         .testTarget(
             name: "OsmiumAtlasFrameworkTests",

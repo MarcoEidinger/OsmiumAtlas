@@ -1,5 +1,6 @@
 import AsyncCompatibilityKit
 import Foundation
+import Logging
 import OhhAuth
 import Swifter
 
@@ -73,27 +74,30 @@ extension Swifter {
                 }
                 continuation.resume(returning: userIds)
             } failure: { error in
+                Logger.shared.error("cannot lookup Ids for \(users)" + error.localizedDescription)
                 continuation.resume(throwing: TwitterError.operationFailed(error))
             }
         }
     }
 
     func addListMember(userTag: UserTag, to: ListTag) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            self.addListMember(userTag, to: to) { _ in
+        return try await withCheckedThrowingContinuation { continuation in
+            self.addListMember(userTag, to: to) { json in
                 continuation.resume()
             } failure: { error in
-                continuation.resume(throwing: TwitterError.operationFailed(error))
+                Logger.shared.error("cannot add \(userTag)" + error.localizedDescription)
+                continuation.resume()
             }
         }
     }
 
     func removeListMember(_ usersTag: UsersTag, from: ListTag) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            self.removeListMembers(usersTag, from: from) { _ in
+        return try await withCheckedThrowingContinuation { continuation in
+            self.removeListMembers(usersTag, from: from) { json in
                 continuation.resume()
             } failure: { error in
-                continuation.resume(throwing: TwitterError.operationFailed(error))
+                print("cannot remove \(usersTag)" + error.localizedDescription)
+                continuation.resume()
             }
         }
     }

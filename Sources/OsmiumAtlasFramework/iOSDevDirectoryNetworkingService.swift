@@ -1,5 +1,6 @@
 import AsyncCompatibilityKit
 import Foundation
+import Logging
 
 /// main API for command-line tool
 public class iOSDevDirectoryNetworkingService {

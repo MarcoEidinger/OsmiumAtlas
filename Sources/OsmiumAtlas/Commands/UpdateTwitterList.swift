@@ -1,5 +1,6 @@
 import ArgumentParser
 import Foundation
+import Logging
 import OsmiumAtlasFramework
 import Twitter
 
@@ -64,7 +65,7 @@ struct UpdateTwitterList: AsyncParsableCommand {
     }
 
     func updateList(id listId: String, adding: [String], removing: [String], api: API) async throws {
-        try await withThrowingTaskGroup(of: String.self) { group in
+        _ = try await withThrowingTaskGroup(of: String.self) { group in
 
             var userIdsToAdd: [String] = []
             var userIdsToRemove: [String] = []
@@ -84,21 +85,22 @@ struct UpdateTwitterList: AsyncParsableCommand {
             for userid in userIdsToAdd {
                 group.addTask {
                     _ = try await api.addListMember(id: userid, to: listId)
-                    Logger.shared.info("\(userid) added")
                     return (userid)
                 }
             }
 
             for userid in userIdsToRemove {
                 group.addTask {
-                    _ = try await api.addListMember(id: userid, to: listId)
-                    Logger.shared.info("\(userid) added")
+                    _ = try await api.removeListMember(id: userid, from: listId)
                     return (userid)
                 }
             }
-
-            Logger.shared.info("updating list done")
         }
+
+        Logger.shared.info("updating list done")
+
+        let twitterListMemberUsername = try await api.getListMembers(for: listId).map { $0.lowercased() }
+        Logger.shared.info("\(twitterListMemberUsername.count) Members in Twitter List: \(twitterListMemberUsername)")
     }
 
     func setLogger() {

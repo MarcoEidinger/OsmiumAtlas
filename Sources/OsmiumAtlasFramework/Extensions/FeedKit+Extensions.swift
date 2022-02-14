@@ -1,5 +1,6 @@
 import FeedKit
 import Foundation
+import Logging
 
 extension FeedParser {
     func asyncParse(for blog: Blog) async -> FeedItem? {

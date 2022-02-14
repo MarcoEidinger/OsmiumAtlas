@@ -1,5 +1,6 @@
 import ArgumentParser
 import Foundation
+import Logging
 import OsmiumAtlasFramework
 
 struct iOSDevDirectoryEnglishDevBlogs: AsyncParsableCommand {
