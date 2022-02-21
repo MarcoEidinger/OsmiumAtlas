@@ -68,8 +68,11 @@ extension Swifter {
                     return
                 }
                 for entry in resultArray {
-                    if let userId = entry["id"].integer {
-                        userIds.append(String(userId))
+                    if let userId = entry["id_str"].string {
+                        if let user = entry["name"].string {
+                            Logger.shared.debug("User '\(user)' with id: \(userId)")
+                        }
+                        userIds.append(userId)
                     }
                 }
                 continuation.resume(returning: userIds)
