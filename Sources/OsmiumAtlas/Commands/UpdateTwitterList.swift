@@ -39,7 +39,9 @@ struct UpdateTwitterList: AsyncParsableCommand {
             // 2. download blogs to get recent authors
             Logger.shared.reset()
             let blogs = try await CLIUtil().getSitesAndStats().sites
-            let authorTwitterUsername = blogs.compactMap { $0.twitter_url?.sanitizedTwitterHandle.lowercased() }[0 ..< 75]
+            let authorTwitterUsername = blogs
+                .compactMap { $0.twitter_url?.sanitizedTwitterHandle.lowercased() }
+                .filter { $0.isEmpty == false }[0 ..< 75]
             setLogger()
             Logger.shared.info("Latest authors: \(authorTwitterUsername)")
 
