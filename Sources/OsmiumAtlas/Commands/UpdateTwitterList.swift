@@ -41,6 +41,7 @@ struct UpdateTwitterList: AsyncParsableCommand {
             let blogs = try await CLIUtil().getSitesAndStats().sites
             let authorTwitterUsername = blogs
                 .compactMap { $0.twitter_url?.sanitizedTwitterHandle.lowercased() }
+                .uniqued()
                 .filter { $0.isEmpty == false }[0 ..< 75]
             setLogger()
             Logger.shared.info("Latest authors: \(authorTwitterUsername)")
@@ -107,5 +108,12 @@ struct UpdateTwitterList: AsyncParsableCommand {
 
     func setLogger() {
         Logger.shared = BeaverLogger.create(verbose: debug, logDestination: .console, format: "$d $C$L$c $M")
+    }
+}
+
+extension Sequence where Element: Hashable {
+    func uniqued() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
