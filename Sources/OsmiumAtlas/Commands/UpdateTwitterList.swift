@@ -28,6 +28,7 @@ struct UpdateTwitterList: AsyncParsableCommand {
     var oauthTokenSecret: String
 
     mutating func runAsync() async throws {
+        let ignoreAuthors = ["zorn"]
         setLogger()
         do {
             // 1. download twitter list
@@ -42,6 +43,7 @@ struct UpdateTwitterList: AsyncParsableCommand {
             let authorTwitterUsername = blogs
                 .compactMap { $0.twitter_url?.sanitizedTwitterHandle.lowercased() }
                 .uniqued()
+                .filter { !ignoreAuthors.contains($0)  }
                 .filter { $0.isEmpty == false }[0 ..< 75]
             setLogger()
             Logger.shared.info("Latest authors: \(authorTwitterUsername)")
