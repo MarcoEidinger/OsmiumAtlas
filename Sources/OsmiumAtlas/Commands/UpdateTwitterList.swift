@@ -28,7 +28,7 @@ struct UpdateTwitterList: AsyncParsableCommand {
     var oauthTokenSecret: String
 
     mutating func runAsync() async throws {
-        let ignoreAuthors = ["zorn"]
+        let ignoreAuthors = ["zorn", "nhawk", "stuarticus", "o_aberration"]
         setLogger()
         do {
             // 1. download twitter list
