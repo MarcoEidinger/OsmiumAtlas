@@ -10,7 +10,9 @@ extension Blog {
         let parser = FeedParser(URL: feedURL)
         let latestFeedItem = await parser.asyncParse(for: blog)
         guard let lfi = latestFeedItem else { return blog }
-        blog.most_recent_article = Article(feedItem: lfi)
+        let article = Article(feedItem: lfi)
+        guard let published_date = article.published_date, published_date < Date() else { return blog }
+        blog.most_recent_article = article
         return blog
     }
 }
