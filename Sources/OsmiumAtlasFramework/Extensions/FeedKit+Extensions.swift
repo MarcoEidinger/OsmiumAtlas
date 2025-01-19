@@ -11,14 +11,20 @@ extension FeedParser {
 
                 switch result {
                 case let .success(feed):
-
+                    let today = Date()
                     switch feed {
                     case let .atom(feed): // Atom Syndication Format Feed Model
-                        latestFeedIten = feed.entries?.first
+                        let items = feed.entries ?? []
+                        let latestItemsFirst = items.sorted { $0.published ?? today > $1.published ?? today }
+                        latestFeedIten = latestItemsFirst.first
                     case let .rss(feed): // Really Simple Syndication Feed Model
-                        latestFeedIten = feed.items?.first
+                        let items = feed.items ?? []
+                        let latestItemsFirst = items.sorted { $0.pubDate ?? today > $1.pubDate ?? today }
+                        latestFeedIten = latestItemsFirst.first
                     case let .json(feed): // JSON Feed Model
-                        latestFeedIten = feed.items?.first
+                        let items = feed.items ?? []
+                        let latestItemsFirst = items.sorted { $0.datePublished ?? today > $1.datePublished ?? today }
+                        latestFeedIten = latestItemsFirst.first
                     }
 
                     continuation.resume(returning: latestFeedIten)
